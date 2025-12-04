@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dame Desayuno, Mamá 🍳</title>
+  <title>Dame Desayuno Ultra Deluxe 🍳🎵</title>
   <style>
     body {
       margin: 0;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(to right, #FFD194, #D1913C);
-      color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -17,76 +15,134 @@
       height: 100vh;
       text-align: center;
       overflow: hidden;
+      animation: bgChange 15s infinite alternate;
+      background: #FFDEE9;
+    }
+
+    @keyframes bgChange {
+      0% { background: #FFDEE9; }
+      25% { background: #B5FFFC; }
+      50% { background: #FFF3B0; }
+      75% { background: #D4F1F4; }
+      100% { background: #FFDEE9; }
     }
 
     h1 {
       font-size: 3em;
-      margin: 0.5em;
-      text-shadow: 2px 2px #B5651D;
+      margin-bottom: 0.2em;
+      color: #FF6F61;
       animation: bounce 1s infinite alternate;
+      text-shadow: 2px 2px #fff;
     }
 
     p {
-      font-size: 1.5em;
-      margin: 0.5em;
+      font-size: 1.3em;
+      margin-bottom: 1em;
+      color: #555;
     }
 
     button {
-      background-color: #fff;
-      color: #D1913C;
+      background-color: #FF6F61;
+      color: white;
       border: none;
-      padding: 15px 30px;
+      padding: 15px 25px;
+      margin: 10px;
       font-size: 1.2em;
       border-radius: 15px;
       cursor: pointer;
       transition: 0.3s;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
 
     button:hover {
       transform: scale(1.1);
-      background-color: #FFD194;
+      background-color: #FF856F;
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      padding: 15px 25px;
+      border-radius: 20px;
+      background-color: #FFF3B0;
+      color: #FF6F61;
+      font-weight: bold;
+      display: none;
+      animation: pop 0.5s forwards;
     }
 
     @keyframes bounce {
       0% { transform: translateY(0); }
-      100% { transform: translateY(-20px); }
-    }
-
-    .toast {
-      position: absolute;
-      bottom: 50px;
-      background: #fff;
-      color: #D1913C;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      display: none;
-      animation: pop 0.5s forwards;
+      100% { transform: translateY(-15px); }
     }
 
     @keyframes pop {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      opacity: 0.8;
+      border-radius: 50%;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Dame desayuno, mamá! 🍳🥐</h1>
-  <p>Te mereces todo el cariño y un desayuno delicioso 😋</p>
-  <button onclick="pedirDesayuno()">¡Hacer petición!</button>
+  <h1>Dame desayuno, mamá! 🍳🎉</h1>
+  <p>¡Presiona los botones y disfruta la magia del desayuno!</p>
 
-  <div class="toast" id="toast">¡Ya viene el desayuno! 🥰</div>
+  <button onclick="pedirDesayuno('Huevos 🥚')">Huevos</button>
+  <button onclick="pedirDesayuno('Pancakes 🥞')">Pancakes</button>
+  <button onclick="pedirDesayuno('Jugo de naranja 🍊')">Jugo</button>
+  <button onclick="pedirDesayuno('Café ☕')">Café</button>
+
+  <div class="mensaje" id="mensaje"></div>
+
+  <!-- Música de fondo -->
+  <audio id="musica" autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    function pedirDesayuno() {
-      const toast = document.getElementById('toast');
-      toast.style.display = 'block';
+    // Mensajes de botones con sonido
+    function pedirDesayuno(item) {
+      const mensaje = document.getElementById('mensaje');
+      mensaje.textContent = `¡${item} en camino! 😋`;
+      mensaje.style.display = 'block';
       setTimeout(() => {
-        toast.style.display = 'none';
-      }, 2000);
+        mensaje.style.display = 'none';
+      }, 2500);
+
+      // Efecto de sonido usando beep
+      const audio = new Audio(`data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEA...`);
+      // Nota: puedes reemplazar el base64 por cualquier efecto de sonido corto
+      // audio.play();
     }
+
+    // Confeti animado
+    function crearConfeti() {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * window.innerWidth + 'px';
+      confetti.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 60%)`;
+      confetti.style.width = 8 + Math.random() * 7 + 'px';
+      confetti.style.height = 8 + Math.random() * 7 + 'px';
+      confetti.style.animationDuration = 3 + Math.random() * 2 + 's';
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 5000);
+    }
+
+    setInterval(crearConfeti, 200);
   </script>
 
 </body>
